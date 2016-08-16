@@ -30,6 +30,33 @@ sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
 
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+
+publishing {
+    publications {
+        mavenJava(org.gradle.api.publish.maven.MavenPublication) {
+            groupId 'com.actelion.research'
+            artifactId 'lib-orbit-common'
+            version libOrbitCommonVersion
+            from components.java
+            artifact sourceJar {
+                classifier "sources"
+            }
+            artifact docJar {
+                classifier "javadoc"
+            }
+            pom.withXml {
+                asNode().appendNode('description', 'Orbit Image Analysis Actelion Extensions')
+            }
+
+        }
+    }
+}
+
 if (JavaVersion.current().isJava8Compatible()) {
     allprojects {
         tasks.withType(Javadoc) {
