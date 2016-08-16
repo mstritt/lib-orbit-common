@@ -1,0 +1,53 @@
+/*
+ *     Orbit, a versatile image analysis software for biological image-based quantification.
+ *     Copyright (C) 2009 - 2016 Actelion Pharmaceuticals Ltd., Gewerbestrasse 16, CH-4123 Allschwil, Switzerland.
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+apply plugin: 'java'
+apply plugin: 'maven-publish'
+if (file('custom.gradle').exists()) {
+    apply from: 'custom.gradle'
+}
+
+
+ext.libOrbitCommonVersion = '1.0.8';
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+
+if (JavaVersion.current().isJava8Compatible()) {
+    allprojects {
+        tasks.withType(Javadoc) {
+            options.addStringOption('Xdoclint:none', '-quiet')
+        }
+    }
+}
+
+task sourceJar(type: org.gradle.api.tasks.bundling.Jar) {
+    from sourceSets.main.allJava
+}
+task docJar(type: org.gradle.api.tasks.bundling.Jar, dependsOn: 'javadoc') {
+    from javadoc.destinationDir
+}
+
+
+dependencies {
+    testCompile 'junit:junit:[4.0,)'
+}
+
+
