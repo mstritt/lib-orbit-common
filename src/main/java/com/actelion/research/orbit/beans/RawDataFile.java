@@ -54,6 +54,7 @@ public class RawDataFile implements Serializable, Cloneable {
     protected Date referenceDate = null;
     protected Date modifyDate = null;
     protected String userId = "";
+    protected String md5 = "";
 
     public RawDataFile() {
         referenceDate = new Date(System.currentTimeMillis());
@@ -148,6 +149,13 @@ public class RawDataFile implements Serializable, Cloneable {
         this.userId = userId;
     }
 
+    public String getMd5() {
+        return md5;
+    }
+
+    public void setMd5(String md5) {
+        this.md5 = md5;
+    }
 
     /**
      * SampleID is not valid anymore - use barcode meta data instead
@@ -190,6 +198,7 @@ public class RawDataFile implements Serializable, Cloneable {
                 ", referenceDate=" + referenceDate +
                 ", modifyDate=" + modifyDate +
                 ", userId='" + userId + '\'' +
+                ", md5='" + md5 + '\'' +
                 '}';
     }
 
@@ -270,6 +279,7 @@ public class RawDataFile implements Serializable, Cloneable {
         result = prime * result + ((referenceDate == null) ? 0 : referenceDate.hashCode());
         result = prime * result + seriesNum;
         result = prime * result + ((userId == null) ? 0 : userId.hashCode());
+        result = prime * result + ((md5 == null) ? 0 : md5.hashCode());
         return result;
     }
 
@@ -326,6 +336,11 @@ public class RawDataFile implements Serializable, Cloneable {
             if (other.userId != null)
                 return false;
         } else if (!userId.equals(other.userId))
+            return false;
+        if (md5 == null) {
+            if (other.md5 != null)
+                return false;
+        } else if (!md5.equals(other.md5))
             return false;
         return true;
     }
