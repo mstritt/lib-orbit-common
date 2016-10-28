@@ -40,6 +40,8 @@ public class RawAnnotation implements Serializable, Cloneable {
     public static final int ANNOTATION_TYPE_TMASPOT = 5; // TMA Spots
     public static final int ANNOTATION_TYPE_DOSERESPONSE = 6; // IC50Studio parameter
     public static final int ANNOTATION_TYPE_MODEL = 7;
+    public static final int ANNOTATION_TYPE_JSON = 8;
+    public static final int ANNOTATION_TYPE_XML = 9;
     private static final long serialVersionUID = 1L;
     protected int rawAnnotationId = 0;
     protected int rawDataFileId = 0;
