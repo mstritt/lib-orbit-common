@@ -32,11 +32,7 @@ public class DoseResponseRow implements Serializable, Comparable<DoseResponseRow
 
     public enum wellTypes {p0, p100, dose, doseAndP0, doseAndP100}
 
-    ;
-
     public enum compoundTypes {compound, agonist, antagonist}
-
-    ;
 
     private String containerName = "";
     private String wellName = "";
@@ -47,6 +43,7 @@ public class DoseResponseRow implements Serializable, Comparable<DoseResponseRow
     private String compoundType = "";
     private double concentrationFactor = 0d;
     private double concentration = 1d;
+    private String group = "";
     private String measurementName = "";
     private double measurementValue = Double.NaN;
     private int substanceNo = -1;
@@ -56,7 +53,7 @@ public class DoseResponseRow implements Serializable, Comparable<DoseResponseRow
 
     }
 
-    public DoseResponseRow(String containerName, String wellName, String wellType, String compoundName, String tubeId, int compoundId, String compoundType, int substanceNo, int replicateNo, double concentration, double concentrationFactor, String measurementName, double measurementValue) {
+    public DoseResponseRow(String containerName, String wellName, String wellType, String compoundName, String tubeId, int compoundId, String compoundType, int substanceNo, int replicateNo, double concentration, double concentrationFactor, String group, String measurementName, double measurementValue) {
         this.containerName = containerName;
         this.wellName = wellName;
         this.wellType = wellType;
@@ -68,6 +65,7 @@ public class DoseResponseRow implements Serializable, Comparable<DoseResponseRow
         this.replicateNo = replicateNo;
         this.concentration = concentration;
         this.concentrationFactor = concentrationFactor;
+        this.group = group;
         this.measurementName = measurementName;
         this.measurementValue = measurementValue;
     }
@@ -85,11 +83,11 @@ public class DoseResponseRow implements Serializable, Comparable<DoseResponseRow
     public static DoseResponseRow parseDoseResponseRow(String s) throws ParseException {
         if (s == null) return null;
         String[] split = s.split(String.valueOf(DoseResponseSeparator), -1);
-        if (split == null || split.length < 12)
+        if (split == null || split.length < 13)
             throw new ParseException("argument is not a valid DoseResponseRow (null or length<12)", 0);
         double mValue = Double.NaN;
         try {
-            mValue = Double.parseDouble(split[12]);
+            mValue = Double.parseDouble(split[13]);
         } catch (Exception e) {
             mValue = Double.NaN;
         }
@@ -111,7 +109,7 @@ public class DoseResponseRow implements Serializable, Comparable<DoseResponseRow
         } catch (Exception e) {
             replicateNo = 0;
         }
-        return new DoseResponseRow(split[0], split[1], split[2], split[3], split[4], cId, split[6], substanceNo, replicateNo, Double.parseDouble(split[9]), Double.parseDouble(split[10]), split[11], mValue);
+        return new DoseResponseRow(split[0], split[1], split[2], split[3], split[4], cId, split[6], substanceNo, replicateNo, Double.parseDouble(split[9]), Double.parseDouble(split[10]), split[11], split[12], mValue);
     }
 
     /**
@@ -130,6 +128,7 @@ public class DoseResponseRow implements Serializable, Comparable<DoseResponseRow
                 replicateNo + DoseResponseSeparator +
                 concentration + DoseResponseSeparator +
                 concentrationFactor + DoseResponseSeparator +
+                group + DoseResponseSeparator +
                 measurementName + DoseResponseSeparator +
                 measurementValue;
         return s;
@@ -152,6 +151,8 @@ public class DoseResponseRow implements Serializable, Comparable<DoseResponseRow
         if (Double.compare(that.measurementValue, measurementValue) != 0) return false;
         if (compoundType != null ? !compoundType.equals(that.compoundType) : that.compoundType != null) return false;
         if (containerName != null ? !containerName.equals(that.containerName) : that.containerName != null)
+            return false;
+        if (group != null ? !group.equals(that.group) : that.group != null)
             return false;
         if (measurementName != null ? !measurementName.equals(that.measurementName) : that.measurementName != null)
             return false;
@@ -180,6 +181,7 @@ public class DoseResponseRow implements Serializable, Comparable<DoseResponseRow
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         temp = Double.doubleToLongBits(concentrationFactor);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + (group != null ? group.hashCode() : 0);
         result = 31 * result + (measurementName != null ? measurementName.hashCode() : 0);
         temp = Double.doubleToLongBits(measurementValue);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
@@ -210,6 +212,12 @@ public class DoseResponseRow implements Serializable, Comparable<DoseResponseRow
         if (this.compoundType.compareTo(that.compoundType) < 0) {
             return -1;
         } else if (this.compoundType.compareTo(that.compoundType) > 0) {
+            return 1;
+        }
+
+        if (this.group.compareTo(that.group) < 0) {
+            return -1;
+        } else if (this.group.compareTo(that.group) > 0) {
             return 1;
         }
 
@@ -324,5 +332,13 @@ public class DoseResponseRow implements Serializable, Comparable<DoseResponseRow
 
     public void setSubstanceNo(int substanceNo) {
         this.substanceNo = substanceNo;
+    }
+
+    public String getGroup() {
+        return group;
+    }
+
+    public void setGroup(String group) {
+        this.group = group;
     }
 }

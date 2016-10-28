@@ -31,8 +31,8 @@ import java.util.List;
 
 public class DoseResponseContainer implements Serializable, Comparable<DoseResponseContainer> {
     private static final long serialVersionUID = 1L;
-    public static final String DoseResponseHeader = "ContainerName\tWellName\tWellType\tCompoundName\tTubeId\tCompoundId\tCompoundType\tSubstanceNo\tReplicateNo\tConcentration\tConcentrationFactor\tMeasurementName\tMeasurementValue";
-    public static final int NumHeaderColumns = 13;
+    public static final String DoseResponseHeader = "ContainerName\tWellName\tWellType\tCompoundName\tTubeId\tCompoundId\tCompoundType\tSubstanceNo\tReplicateNo\tConcentration\tConcentrationFactor\tGroup\tMeasurementName\tMeasurementValue";
+    public static final int NumHeaderColumns = 14;
     private String containerName = "";
     private Date referenceDate = new Date();
     private String plateFormat = RawUtilsCommon.PlateFormat_384;
