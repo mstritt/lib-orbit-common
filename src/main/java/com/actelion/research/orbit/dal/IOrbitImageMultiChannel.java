@@ -19,11 +19,14 @@
 
 package com.actelion.research.orbit.dal;
 
+import java.awt.image.Raster;
+
 /**
  * Orbit image interface for multichannel images, e.g. fluorescence images.
  * Extends IOrbitImage and provides additional methods for multi-channel handling.
  */
 public interface IOrbitImageMultiChannel extends IOrbitImage {
+    Raster getTileData(int tileX, int tileY, float[] channelContributions);
     String[] getChannelNames();
     void setChannelNames(String[] channelNames);
     float[] getChannelContributions();
