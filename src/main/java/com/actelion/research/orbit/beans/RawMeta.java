@@ -27,6 +27,7 @@ import java.util.Date;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 /**
  * Class representing a RawMeta object. This is used to specify a set of property/value pairs for RawData or RawDataFile.
@@ -234,18 +235,29 @@ public class RawMeta implements Serializable, Cloneable {
     }
 
     /**
-     * Get a {@link RawMeta} element by its name
+     * Get a {@link RawMeta} element with a matching name
      * 
      * @param rawMetas {@link Collection} of {@link RawMeta} elements
      * @param pattern Name {@link Pattern} to look for
      * @return Any matching {@link RawMeta}
      */
-    public static Optional<RawMeta> getByTagName (final Collection<RawMeta> rawMetas, final Pattern pattern)
+    public static Optional<RawMeta> getAnyByTagName (final Collection<RawMeta> rawMetas, final Pattern pattern)
+    {
+        return getAllByTagName(rawMetas, pattern).findAny();
+    }
+    
+    /**
+     * Get all {@link RawMeta} elements with matching names
+     * 
+     * @param rawMetas {@link Collection} of {@link RawMeta} elements
+     * @param pattern Name {@link Pattern} to look for
+     * @return Any matching {@link RawMeta}
+     */
+    public static Stream<RawMeta> getAllByTagName (final Collection<RawMeta> rawMetas, final Pattern pattern)
     {
         return rawMetas.stream() //
                        .filter(rawMeta -> rawMeta.getName() != null) //
-                       .filter(rawMeta -> pattern.matcher(rawMeta.getName()).matches()) //
-                       .findAny();
+                       .filter(rawMeta -> pattern.matcher(rawMeta.getName()).matches());
     }
 
 }
