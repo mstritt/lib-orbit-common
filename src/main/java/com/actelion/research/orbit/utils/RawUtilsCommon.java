@@ -63,6 +63,7 @@ public class RawUtilsCommon {
 
     public static final String RAWDATA_SELECTED = "raw_data_selected";
     public static final String RAWDATAFILES_SELECTED = "raw_data_files_selected";
+    public static final String RAWDATAFILES_SERIES_SELECTED = "SERIES_CHANGED";
 
     public static final ThreadLocal<SimpleDateFormat> dateFormat = new ThreadLocal<SimpleDateFormat>() {
         @Override
