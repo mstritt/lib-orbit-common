@@ -24,9 +24,31 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class ChannelToHue {
 
-    private static final float HueAlexa594 = 0f / 360f;
-    private static final float HueAlexa388 = 102f / 360f;
+    private static final float HueAlexa350 = 204f / 360f;
+    private static final float HueAlexa388 = 204f / 360f;
+    private static final float HueAlexa405 = 204f / 360f;
+    private static final float HueAlexa430 = 135f / 360f;
+    private static final float HueAlexa488 = 135f / 360f;
+    private static final float HueAlexa500 = 135f / 360f;
+    private static final float HueAlexa514 = 135f / 360f;
+    private static final float HueAlexa532 = 48f / 360f;
+    private static final float HueAlexa546 = 36f / 360f;
+    private static final float HueAlexa550 = 36f / 360f;
+    private static final float HueAlexa555 = 36f / 360f;
     private static final float HueAlexa568 = 0f / 360f;
+    private static final float HueAlexa594 = 0f / 360f;
+    private static final float HueAlexa610 = 0f / 360f;
+    private static final float HueAlexa633 = 0f / 360f;
+    private static final float HueAlexa635 = 0f / 360f;
+    private static final float HueAlexa647 = 0f / 360f;
+    private static final float HueAlexa650 = 0f / 360f;
+    private static final float HueAlexa660 = 0f / 360f;
+    private static final float HueAlexa680 = 0f / 360f;
+    private static final float HueAlexa700 = 0f / 360f;
+    private static final float HueAlexa750 = 0f / 360f;
+    private static final float HueAlexa790 = 0f / 360f;
+
+
     private static final float HueCy3 = 40f / 360f;
     private static final float HueCy5 = 0f / 360f;  // 60
     private static final float HueCy7 = 62f / 360f; 
@@ -34,6 +56,8 @@ public class ChannelToHue {
     private static final float HueDAPI = 240f / 360f; // 202
     private static final float HueFITC = 108f / 360f;
     private static final float HueTRITC = 22f / 360f;
+    private static final float HueCh2T1 =  0f / 360f;
+    private static final float HueCh2T2 =  177f / 360f;
 
 
     private static ChannelHue[] mappings = new ChannelHue[] {
@@ -47,9 +71,11 @@ public class ChannelToHue {
         new ChannelHue("cy3", HueCy3),
         new ChannelHue("cy3.5", HueCy3),
         new ChannelHue("cy3_5", HueCy3),
+        new ChannelHue("cy35", HueCy3),
         new ChannelHue("cy5", HueCy5),
         new ChannelHue("cy5.5", HueCy5),
         new ChannelHue("cy5_5", HueCy5),
+        new ChannelHue("cy55", HueCy5),
         new ChannelHue("cy5 2 (650)", HueCy5),
         new ChannelHue("cy7", HueCy7),
         new ChannelHue("egfp", HueEGFP),
@@ -68,11 +94,10 @@ public class ChannelToHue {
         new ChannelHue("channel3", HueCy5),
         new ChannelHue("channel4", HueEGFP),
         new ChannelHue("channel5", HueCy3),
-
         new ChannelHue("hoechst", HueDAPI),
         new ChannelHue("percp", 0f / 360f),
-
-
+        new ChannelHue("Ch2-T1", HueCh2T1),
+        new ChannelHue("Ch2-T2", HueCh2T2),
     };
 
     public final static Map<String, Float> hueMap = new ConcurrentHashMap<>(mappings.length);
@@ -96,26 +121,31 @@ public class ChannelToHue {
         if (channelName.contains("cy3")) return HueCy3;
         if (channelName.contains("gfp")) return HueEGFP;
 
-        if (channelName.contains("alexa") && channelName.contains("388")) return HueAlexa388;
-
-        if (channelName.contains("alexa") && channelName.contains("305")) return 204f/360f;
-        if (channelName.contains("alexa") && channelName.contains("401")) return 204f/360f;
-        if (channelName.contains("alexa") && channelName.contains("430")) return 135f/360f;
-        if (channelName.contains("alexa") && channelName.contains("488")) return 135f/360f;
-        if (channelName.contains("alexa") && channelName.contains("532")) return 48f/360f;
-        if (channelName.contains("alexa") && channelName.contains("546")) return 36f/360f;
-        if (channelName.contains("alexa") && channelName.contains("568")) return 12f/360f;
-        if (channelName.contains("alexa") && channelName.contains("594")) return 12f/360f;
-        if (channelName.contains("alexa") && channelName.contains("610")) return 12f/360f;
-        if (channelName.contains("alexa") && channelName.contains("633")) return 12f/360f;
-        if (channelName.contains("alexa") && channelName.contains("635")) return 12f/360f;
-        
-        if (channelName.contains("alexa") && channelName.contains("647")) return 62f/360f; // infrared
-        if (channelName.contains("alexa") && channelName.contains("660")) return 62f/360f; // infrared
-        if (channelName.contains("alexa") && channelName.contains("680")) return 62f/360f; // infrared
-        if (channelName.contains("alexa") && channelName.contains("700")) return 62f/360f; // infrared
-        if (channelName.contains("alexa") && channelName.contains("750")) return 62f/360f; // infrared
-        if (channelName.contains("alexa") && channelName.contains("790")) return 62f/360f; // infrared
+        if (channelName.contains("alexa") || channelName.contains("af")) {
+            if (channelName.contains("350")) return HueAlexa350;
+            if (channelName.contains("388")) return HueAlexa388;
+            if (channelName.contains("405")) return HueAlexa405;
+            if (channelName.contains("430")) return HueAlexa430;
+            if (channelName.contains("488")) return HueAlexa488;
+            if (channelName.contains("500")) return HueAlexa500;
+            if (channelName.contains("514")) return HueAlexa514;
+            if (channelName.contains("532")) return HueAlexa532;
+            if (channelName.contains("546")) return HueAlexa546;
+            if (channelName.contains("550")) return HueAlexa550;
+            if (channelName.contains("555")) return HueAlexa555;
+            if (channelName.contains("568")) return HueAlexa568;
+            if (channelName.contains("594")) return HueAlexa594;
+            if (channelName.contains("610")) return HueAlexa610;
+            if (channelName.contains("633")) return HueAlexa633;
+            if (channelName.contains("635")) return HueAlexa635;
+            if (channelName.contains("647")) return HueAlexa647;
+            if (channelName.contains("650")) return HueAlexa650;
+            if (channelName.contains("660")) return HueAlexa660;
+            if (channelName.contains("680")) return HueAlexa680;
+            if (channelName.contains("700")) return HueAlexa700;
+            if (channelName.contains("750")) return HueAlexa750;
+            if (channelName.contains("790")) return HueAlexa790;
+        }
 
 
         if (channelName.contains("violet")) return 264f / 360f;

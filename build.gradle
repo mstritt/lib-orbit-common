@@ -31,7 +31,7 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'maven-publish'
 
-ext.libOrbitCommonVersion = '1.1.2';
+ext.libOrbitCommonVersion = '1.1.3';
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
