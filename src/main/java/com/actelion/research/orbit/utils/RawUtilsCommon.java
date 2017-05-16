@@ -54,7 +54,9 @@ public class RawUtilsCommon {
     public final static String DATA_TYPE_IMAGE_PNG = "image/png";
     public final static String DATA_TYPE_IMAGE_TIFF = "image/tiff";
     public final static String DATA_TYPE_IMAGE_JPEG2000 = "image/jp2";
-    public final static String[] fileTypesImage = new String[]{DATA_TYPE_IMAGE_TIFF, DATA_TYPE_IMAGE_JPG, DATA_TYPE_IMAGE_PNG, DATA_TYPE_IMAGE_JPEG2000};
+    public final static String DATA_TYPE_IMAGE_NDPI = "image/ndpi";
+    public final static String DATA_TYPE_IMAGE_NDPIS = "image/ndpis";
+    public final static String[] fileTypesImage = new String[]{DATA_TYPE_IMAGE_TIFF, DATA_TYPE_IMAGE_JPG, DATA_TYPE_IMAGE_PNG, DATA_TYPE_IMAGE_JPEG2000, DATA_TYPE_IMAGE_NDPI, DATA_TYPE_IMAGE_NDPIS};
     public final static String[] STR_THUMBS = new String[]{"_thumb", "_Thumb", "-thumb", "-Thumb", "_thn", ".orbitthn"};
 
     public final static String STR_META_CHANNEL = "Channel";
