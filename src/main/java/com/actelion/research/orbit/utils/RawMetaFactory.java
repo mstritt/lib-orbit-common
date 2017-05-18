@@ -35,14 +35,26 @@ import java.util.Locale;
  */
 public abstract class RawMetaFactory
 {
+    /** Format {@link String} to create a {@link DateFormat} */
+    public static final String DATE_FORMAT = "dd.MM.yyyy";
+
+    /**
+     * @deprecated This should not be {@code public} nor {@code static} - especially because a
+     *             {@link DateFormat} should never be used from several threads. Therefore each
+     *             instance and all other users should create its own {@link DateFormat} from
+     *             {@link #DATE_FORMAT}.
+     */
+    @Deprecated
+    public static final DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
+
     /** {@link Date} to be set to new {@link RawMeta}s by {@link RawMeta#setModifyDate(Date)} */
     protected Date modifyDate = null;
 
     /** User Id to be set to new {@link RawMeta}s by {@link RawMeta#setUserId(String)} */
     protected String userId = "";
 
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-    private static final DateFormat dateFormat2 = DateFormat.getDateInstance(DateFormat.LONG, Locale.US);
+    private final DateFormat dateFormat1 = new SimpleDateFormat(DATE_FORMAT);
+    private final DateFormat dateFormat2 = DateFormat.getDateInstance(DateFormat.LONG, Locale.US);
 
     /**
      * {@link RawMetaFactory} constructor
@@ -149,8 +161,8 @@ public abstract class RawMetaFactory
         // is it a date (dateFormat1)?
         if (!typeFound) {
             try {
-                Date date = dateFormat.parse(val.replaceAll("/", ".").replaceAll("-", "."));
-                val = dateFormat.format(date);
+                Date date = dateFormat1.parse(val.replaceAll("/", ".").replaceAll("-", "."));
+                val = dateFormat1.format(date);
                 rawMeta.setRawTypeId(RawDbTypes.RAW_TYPE_DATE);
                 typeFound = true;
             } catch (Exception e) {
@@ -162,7 +174,7 @@ public abstract class RawMetaFactory
         if (!typeFound) {
             try {
                 Date date = dateFormat2.parse(val.replaceAll("/", ".").replaceAll("-", "."));
-                val = dateFormat.format(date); // always use standard dateFormat
+                val = dateFormat1.format(date); // always use standard dateFormat
                 rawMeta.setRawTypeId(RawDbTypes.RAW_TYPE_DATE);
                 typeFound = true;
             } catch (Exception e) {
