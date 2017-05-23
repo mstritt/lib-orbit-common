@@ -19,6 +19,7 @@
 
 package com.actelion.research.orbit.dal;
 
+import java.awt.image.ColorModel;
 import java.awt.image.Raster;
 
 /**
@@ -26,6 +27,7 @@ import java.awt.image.Raster;
  * Extends IOrbitImage and provides additional methods for multi-channel handling.
  */
 public interface IOrbitImageMultiChannel extends IOrbitImage {
+    ColorModel getColorModel();
     Raster getTileData(int tileX, int tileY, float[] channelContributions);
     String[] getChannelNames();
     void setChannelNames(String[] channelNames);
