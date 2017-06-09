@@ -48,6 +48,7 @@ public class RawUtilsCommon {
     public final static String STR_META_IMAGE_CHANNEL_NAME = "Channel Name";
     public final static String STR_META_IMAGE_IMAGEWIDTH = "ImageWidth";
     public final static String STR_META_IMAGE_IMAGEHEIGHT = "ImageHeight";
+    public final static String STR_META_IMAGE_RESOLUTIONCOUNT = "ResolutionRount";
     public final static String STR_META_RDF_COMMENT = "RDF Comment";
 
     public final static String DATA_TYPE_IMAGE_JPG = "image/jpg";
@@ -61,7 +62,6 @@ public class RawUtilsCommon {
 
     public final static String STR_META_CHANNEL = "Channel";
     public final static String STR_META_BARCODE = "Barcode";
-
 
     public static final String RAWDATA_SELECTED = "raw_data_selected";
     public static final String RAWDATAFILES_SELECTED = "raw_data_files_selected";

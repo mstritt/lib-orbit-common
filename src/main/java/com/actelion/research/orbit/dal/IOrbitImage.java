@@ -21,6 +21,7 @@ package com.actelion.research.orbit.dal;
 
 import com.actelion.research.orbit.exceptions.OrbitImageServletException;
 
+import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.Raster;
 import java.awt.image.SampleModel;
@@ -30,6 +31,8 @@ public interface IOrbitImage extends Closeable {
     String readInfoString(String filename) throws OrbitImageServletException;
 
     Raster getTileData(int tileX, int tileY);
+
+    BufferedImage getOverviewImage(); // slide overview image, nullable
 
     String getFilename();
 
