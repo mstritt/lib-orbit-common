@@ -20,6 +20,7 @@
 package com.actelion.research.orbit.gui;
 
 import com.actelion.research.orbit.utils.Logger;
+import com.actelion.research.orbit.utils.RawUtilsCommon;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,6 +28,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Component to display a searchfield and an AND/OR selector.
@@ -60,16 +63,20 @@ public class RdfSearchBox extends JPanel {
     private JToggleButton btnSmall = null;
     private JToggleButton btnBig = null;
 
+    private final JRadioButton showAllImages = new JRadioButton("all images",true);
+    private final JRadioButton showNDPIImages = new JRadioButton("NDPI",false);
+    private final JRadioButton showNDPISImages = new JRadioButton("NDPIS",false);
+
 
     public RdfSearchBox() {
-        this(false);
+        this(false, true, true);
     }
 
     public RdfSearchBox(boolean showViewModeButtons) {
-        this(showViewModeButtons, true);
+        this(showViewModeButtons, true, true);
     }
 
-    public RdfSearchBox(boolean showViewModeButtons, boolean showConcatMode) {
+    public RdfSearchBox(boolean showViewModeButtons, boolean showConcatMode, boolean showFileFilter) {
         setLayout(new GridBagLayout());
 
         okButton = new JButton("search");
@@ -111,16 +118,45 @@ public class RdfSearchBox extends JPanel {
             }
         });
 
-        JPanel rbPanel = null;
-        if (showConcatMode) {
-            ButtonGroup buttonGroup;
-            buttonGroup = new ButtonGroup();
-            buttonGroup.add(rbFast);
-            buttonGroup.add(rbExhaustive);
-            rbPanel = new JPanel();
-            rbPanel.add(rbFast);
-            rbPanel.add(rbExhaustive);
-        }
+        // fast/exhaustive search is not added anymore - exhaustive search is too slow
+
+//        JPanel rbPanel = null;
+//        if (showConcatMode) {
+//            ButtonGroup buttonGroup;
+//            buttonGroup = new ButtonGroup();
+//            buttonGroup.add(rbFast);
+//            buttonGroup.add(rbExhaustive);
+//            rbPanel = new JPanel();
+//            rbPanel.add(rbFast);
+//            rbPanel.add(rbExhaustive);
+//        }
+
+        ActionListener imageTypefilter = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                java.util.List<String> fileTypes = new ArrayList<>();
+                if (showNDPIImages.isSelected()) fileTypes.add(RawUtilsCommon.DATA_TYPE_IMAGE_NDPI);
+                else if (showNDPISImages.isSelected()) fileTypes.add(RawUtilsCommon.DATA_TYPE_IMAGE_NDPIS);
+                else fileTypes = Arrays.asList(RawUtilsCommon.fileTypesImage);
+                firePropertyChange("EXPLICITE_FILEFILTER", null, fileTypes);
+            }
+        };
+
+        showAllImages.addActionListener(imageTypefilter);
+        showNDPIImages.addActionListener(imageTypefilter);
+        showNDPISImages.addActionListener(imageTypefilter);
+
+        ButtonGroup buttonGroup = new ButtonGroup();
+        buttonGroup.add(showAllImages);
+        buttonGroup.add(showNDPIImages);
+        buttonGroup.add(showNDPISImages);
+
+        JPanel fileFilterPanel = new JPanel(new FlowLayout(FlowLayout.LEFT,5,0));
+        fileFilterPanel.add(showAllImages);
+        fileFilterPanel.add(showNDPIImages);
+        fileFilterPanel.add(showNDPISImages);
+
+        // view mode
 
         JPanel viewModePanel = null;
         if (showViewModeButtons) viewModePanel = getViewModePanel();
@@ -190,7 +226,9 @@ public class RdfSearchBox extends JPanel {
         add(sp, gbcSearchPane);
         if (viewModePanel != null) add(viewModePanel, gbcViewMode);
         if (filterPanel != null) add(filterPanel, gbcFilter);
-        if (showConcatMode) add(rbPanel, gbcAndOrMode);
+       // if (showConcatMode) add(rbPanel, gbcAndOrMode);
+        if (showFileFilter)
+            add(fileFilterPanel, gbcAndOrMode);
     }
 
 
