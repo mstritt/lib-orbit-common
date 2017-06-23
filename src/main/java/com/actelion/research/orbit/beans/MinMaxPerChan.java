@@ -17,22 +17,30 @@
  *
  */
 
-package com.actelion.research.orbit.dal;
+package com.actelion.research.orbit.beans;
 
-import java.awt.image.ColorModel;
-import java.awt.image.Raster;
+public class MinMaxPerChan {
+    private int[] min;
+    private int[] max;
 
-/**
- * Orbit image interface for multichannel images, e.g. fluorescence images.
- * Extends IOrbitImage and provides additional methods for multi-channel handling.
- */
-public interface IOrbitImageMultiChannel extends IOrbitImage {
-    ColorModel getColorModel();
-    Raster getTileData(int tileX, int tileY, float[] channelContributions, boolean analysis);
-    String[] getChannelNames();
-    void setChannelNames(String[] channelNames);
-    float[] getChannelContributions();
-    void setChannelContributions(float[] contributions);
-    float[] getHues(); // hue values per channel
-    void setHues(float[] hues); // hue values per channel
+    public MinMaxPerChan(int[] min, int[] max) {
+        this.min = min;
+        this.max = max;
+    }
+
+    public int[] getMin() {
+        return min;
+    }
+
+    public void setMin(int[] min) {
+        this.min = min;
+    }
+
+    public int[] getMax() {
+        return max;
+    }
+
+    public void setMax(int[] max) {
+        this.max = max;
+    }
 }

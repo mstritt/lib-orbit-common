@@ -80,6 +80,8 @@ public class RawUtilsCommon {
     public final static String PlateFormat_384 = "384";
     public final static String PlateFormat_96 = "96";
 
+    public static int MAX_INTENS_16BIT = 65535;
+
 
     // LIMS specific
 

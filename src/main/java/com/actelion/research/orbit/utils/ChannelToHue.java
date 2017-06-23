@@ -21,8 +21,11 @@ package com.actelion.research.orbit.utils;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class ChannelToHue {
+
+    public static final AtomicLong lastUpdate = new AtomicLong(0);
 
     private static final float HueAlexa350 = 204f / 360f;
     private static final float HueAlexa388 = 204f / 360f;

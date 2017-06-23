@@ -19,6 +19,7 @@
 
 package com.actelion.research.orbit.dal;
 
+import com.actelion.research.orbit.beans.MinMaxPerChan;
 import com.actelion.research.orbit.exceptions.OrbitImageServletException;
 
 import java.awt.image.BufferedImage;
@@ -30,7 +31,11 @@ import java.io.Closeable;
 public interface IOrbitImage extends Closeable {
     String readInfoString(String filename) throws OrbitImageServletException;
 
-    Raster getTileData(int tileX, int tileY);
+    Raster getTileData(int tileX, int tileY, boolean analysis);
+
+    MinMaxPerChan getMinMaxAnalysis();
+
+    boolean is16bit();
 
     BufferedImage getOverviewImage(); // slide overview image, nullable
 
