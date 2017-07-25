@@ -28,7 +28,7 @@ import java.awt.image.Raster;
  */
 public interface IOrbitImageMultiChannel extends IOrbitImage {
     ColorModel getColorModel();
-    Raster getTileData(int tileX, int tileY, float[] channelContributions, boolean analysis);
+    Raster getTileData(int tileX, int tileY, float[] channelContributions, boolean analysis, float[] analysisHues);
     String[] getChannelNames();
     void setChannelNames(String[] channelNames);
     float[] getChannelContributions();
