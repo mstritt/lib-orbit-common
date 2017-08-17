@@ -22,171 +22,49 @@ package com.actelion.research.orbit.utils;
 import com.actelion.research.orbit.beans.RawMeta;
 
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
-
 
 /**
- * class for creating RawMeta instances.
+ * Factory class to create {@link RawMeta} instances for {@link RawDataFile} objects.
+ * 
+ * @author patrick.rammelt@actelion.com (revised)
  */
-public class RawMetaFactoryFile implements Serializable {
-
+public class RawMetaFactoryFile extends RawMetaFactory implements Serializable
+{
     private static final long serialVersionUID = 1L;
+
+    /** Id to to be set to new {@link RawMeta} objects by {@link RawMeta#setRawDataFileId(int)} */
     private int rawDataFileId = 0;
-    private Date modifyDate = null;
-    private String userId = "";
-    public static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy"); //  'at' HH:mm:ss
-    public static final DateFormat dateFormat2 = DateFormat.getDateInstance(DateFormat.LONG, Locale.US); // flipr date
-    public static final DateFormat dateTimeFormat = new SimpleDateFormat("dd.MM.yyyy  HH:mm:ss");
-    //public static final DateFormat oracleDateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-
-    public RawMetaFactoryFile(int rawDataFileId, Date modifyDate, String userId) {
-        this.rawDataFileId = rawDataFileId;
-        this.modifyDate = modifyDate;
-        this.userId = userId;
-    }
-
-    public RawMeta createMetaStr(String name, String value) {
-        RawMeta rm = new RawMeta();
-        rm.setName(name);
-        rm.setValue(value);
-        rm.setRawTypeId(RawDbTypes.RAW_TYPE_STRING);
-        rm.setModifyDate(modifyDate);
-        rm.setRawDataFileId(rawDataFileId);
-        rm.setUserId(userId);
-        return rm;
-    }
-
-    public RawMeta createMetaInt(String name, int value) {
-        RawMeta rm = new RawMeta();
-        rm.setName(name);
-        rm.setValue(Integer.toString(value));
-        rm.setRawTypeId(RawDbTypes.RAW_TYPE_INTEGER);
-        rm.setModifyDate(modifyDate);
-        rm.setRawDataFileId(rawDataFileId);
-        rm.setUserId(userId);
-        return rm;
-    }
-
-    public RawMeta createMetaDouble(String name, double value) {
-        RawMeta rm = new RawMeta();
-        rm.setName(name);
-        rm.setValue(Double.toString(value));
-        rm.setRawTypeId(RawDbTypes.RAW_TYPE_DOUBLE);
-        rm.setModifyDate(modifyDate);
-        rm.setRawDataFileId(rawDataFileId);
-        rm.setUserId(userId);
-        return rm;
-    }
-
-    public RawMeta createMetaDate(String name, Date value) {
-        RawMeta rm = new RawMeta();
-        rm.setName(name);
-        rm.setValue(dateFormat.format(value));
-        rm.setRawTypeId(RawDbTypes.RAW_TYPE_DATE);
-        rm.setModifyDate(modifyDate);
-        rm.setRawDataFileId(rawDataFileId);
-        rm.setUserId(userId);
-        return rm;
-    }
 
     /**
-     * Creates a RawMeta instance. It will try to detect the data type automatically.
-     *
-     * @param name
-     * @param value
-     * @return
+     * {@link RawMetaFactoryFile} constructor
+     * 
+     * @param rawDataFileId {@link #rawDataFileId}
+     * @param modifyDate {@link RawMetaFactory#modifyDate}
+     * @param userId {@link RawMetaFactory#userId}
      */
-    public RawMeta createMetaAuto(String name, String value) {
-        RawMeta rm = new RawMeta();
-        rm.setName(name);
-        rm.setModifyDate(modifyDate);
-        rm.setRawDataFileId(rawDataFileId);
-        rm.setUserId(userId);
-        rm.setRawTypeId(RawDbTypes.RAW_TYPE_STRING);
-        String val = value.trim();
-
-        // is it an int?
-        boolean dtFound = false;
-        try {
-            Integer i = Integer.parseInt(val);
-            val = i.toString();
-            rm.setRawTypeId(RawDbTypes.RAW_TYPE_INTEGER);
-            dtFound = true;
-        } catch (Exception e) {
-            dtFound = false;
-        }
-
-        // is it a double?
-        if (!dtFound) {
-            try {
-                Double d = Double.parseDouble(val.replaceAll(",", "."));
-                val = d.toString();
-                rm.setRawTypeId(RawDbTypes.RAW_TYPE_DOUBLE);
-                dtFound = true;
-            } catch (Exception e) {
-                dtFound = false;
-            }
-        } // if not dtFound
-
-
-        // is it a date (dateFormat1)?
-        if (!dtFound) {
-            try {
-                Date d = dateFormat.parse(val.replaceAll("/", ".").replaceAll("-", "."));
-                val = dateFormat.format(d);
-                rm.setRawTypeId(RawDbTypes.RAW_TYPE_DATE);
-                dtFound = true;
-            } catch (Exception e) {
-                dtFound = false;
-            }
-        } // if not dtFound
-
-        // is it a date (dateFormat2)?
-        if (!dtFound) {
-            try {
-                Date d = dateFormat2.parse(val.replaceAll("/", ".").replaceAll("-", "."));
-                val = dateFormat.format(d); // always use standard dateFormat
-                rm.setRawTypeId(RawDbTypes.RAW_TYPE_DATE);
-                dtFound = true;
-            } catch (Exception e) {
-                dtFound = false;
-            }
-        } // if not dtFound
-
-
-        // else it remains a string attribute
-        rm.setValue(value);
-        return rm;
+    public RawMetaFactoryFile (final int rawDataFileId, final Date modifyDate, final String userId)
+    {
+        super(modifyDate, userId);
+        this.rawDataFileId = rawDataFileId;
     }
 
-
-    public int getRawDataFileId() {
+    /** Get the {@link #rawDataFileId} */
+    public int getRawDataFileId ()
+    {
         return rawDataFileId;
     }
 
-    public void setRawDataFileId(int rawDataFileId) {
+    /** Set the {@link #rawDataFileId} */
+    public void setRawDataFileId (int rawDataFileId)
+    {
         this.rawDataFileId = rawDataFileId;
     }
 
-    public Date getModifyDate() {
-        return modifyDate;
+    @Override
+    protected void link (final RawMeta rawMeta)
+    {
+        rawMeta.setRawDataFileId(rawDataFileId);
     }
-
-    public void setModifyDate(Date modifyDate) {
-        this.modifyDate = modifyDate;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
 
 }
