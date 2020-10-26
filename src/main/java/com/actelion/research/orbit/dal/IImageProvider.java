@@ -153,4 +153,8 @@ public interface IImageProvider extends Closeable {
 
     List<String> getAdminUsers(); // can return empty list
 
+    default IImageProvider getLocalImageProvider() { return null; }
+
+    default void setLocalImageProvider(IImageProvider localImageProvider) { };
+
 }

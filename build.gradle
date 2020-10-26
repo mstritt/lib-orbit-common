@@ -19,31 +19,80 @@
 
 buildscript {
     repositories {
-        mavenCentral()
-        //Needed only for SNAPSHOT versions
-        //maven { url "http://oss.sonatype.org/content/repositories/snapshots/" }
+        maven {
+            url 'http://nexus.idorsia.com/repository/maven-central/'
+            content {
+                excludeGroup "com.idorsia.research"
+                excludeGroup "com.actelion.research"
+            }
+        }
     }
     dependencies {
-        classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.5.3"
+        classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.22.0"
     }
 }
 
 apply plugin: 'java'
+apply plugin: 'signing'
 apply plugin: 'maven-publish'
 
-ext.libOrbitCommonVersion = '1.2.12';
+//ext.libOrbitCommonVersion = '1.3.0-SNAPSHOT'
+version = '1.3.0-SNAPSHOT'
 
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+def javaVersion = JavaVersion.VERSION_1_8
+
+sourceCompatibility = javaVersion
+targetCompatibility = javaVersion
 
 
 repositories {
-    mavenLocal()
-    mavenCentral()
+    maven {
+        url 'http://nexus.idorsia.com/repository/maven-central/'
+        content {
+            excludeGroup "com.idorsia.research"
+            excludeGroup "com.actelion.research"
+        }
+    }
 }
 
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId 'com.actelion.research'
+            artifactId 'lib-orbit-common'
+            version version
+            from components.java
+//            artifact sourceJar {
+//                classifier "sources"
+//            }
+//            artifact docJar {
+//                classifier "javadoc"
+//            }
+            pom.withXml {
+                asNode().appendNode('description', 'lib-orbit-common: Common objects for orbit image analysis.')
+            }
+        }
+    }
+    repositories {
+        maven {
+            credentials {
+                username 'deployment'
+                password 'biodeploy'
+            }
+            //url
+            def releasesRepoUrl = "http://nexus.idorsia.com/repository/idorsia-releases"
+            def snapshotsRepoUrl = "http://nexus.idorsia.com/repository/idorsia-snapshots"
+            url version.endsWith("SNAPSHOT") ? snapshotsRepoUrl : releasesRepoUrl
+            allowInsecureProtocol true
+        }
+    }
+}
 
-if (JavaVersion.current().isJava8Compatible()) {
+signing {
+    sign configurations.archives
+}
+
+if (javaVersion.isJava8Compatible()) {
     allprojects {
         tasks.withType(Javadoc) {
             options.addStringOption('Xdoclint:none', '-quiet')
@@ -51,11 +100,17 @@ if (JavaVersion.current().isJava8Compatible()) {
     }
 }
 
-task sourceJar(type: org.gradle.api.tasks.bundling.Jar) {
-    from sourceSets.main.allJava
+if(JavaVersion.current().isJava9Compatible()) {
+    allprojects {
+        tasks.withType(Javadoc) {
+            options.addBooleanOption('html5', true)
+        }
+    }
 }
-task docJar(type: org.gradle.api.tasks.bundling.Jar, dependsOn: 'javadoc') {
-    from javadoc.destinationDir
+
+java {
+    withJavadocJar()
+    withSourcesJar()
 }
 
 dependencies {
