@@ -155,6 +155,6 @@ public interface IImageProvider extends Closeable {
 
     default IImageProvider getLocalImageProvider() { return null; }
 
-    default void setLocalImageProvider(IImageProvider localImageProvider) { };
+    default void setLocalImageProvider(IImageProvider localImageProvider) { }
 
 }
