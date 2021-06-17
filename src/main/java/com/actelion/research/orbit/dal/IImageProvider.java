@@ -104,6 +104,12 @@ public interface IImageProvider extends Closeable {
 
     List<RawAnnotation> LoadRawAnnotationsByType(int annotationType) throws Exception;
 
+    List<RawAnnotation> LoadRawAnnotationsByTypeAndUser(int annotationType, String userId) throws Exception;
+
+    List<RawAnnotation> LoadRawAnnotationsMetaByType(int annotationType) throws Exception;
+
+    List<RawAnnotation> LoadRawAnnotationsMetaByTypeAndUserId(int annotationType, String userId) throws Exception;
+
     int InsertRawAnnotation(RawAnnotation rawAnnotation) throws Exception; // set rawAnnotation.rawDataFileId <0  for non file specific annotations, e.g. models
 
     boolean UpdateRawAnnotation(RawAnnotation rawAnnotation) throws Exception;
@@ -142,6 +148,8 @@ public interface IImageProvider extends Closeable {
     void setPooledConnectionEnabled(boolean enabled);
 
     void setDBConnectionName(String name);
+
+    int getNumberOfAllowedParallelImageReads();
 
     ConcurrentHashMap<String, Object> getHints(); // key-value store for specific hints (can return an empty map, but not null)
 
