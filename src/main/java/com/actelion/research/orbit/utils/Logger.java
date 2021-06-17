@@ -117,7 +117,7 @@ public class Logger implements ILogListener {
                     levelStr = "TRACE";
             }
 
-            String sFull = (dateStr() + " " + levelStr + " " + c.getName() + ": " + message);
+            String sFull = (dateStr() + " " + levelStr + " " + c.getName() + ":"  + Thread.currentThread().getStackTrace()[3].getLineNumber() + " - " + message);
             String sSmall = (dateStr() + " " + levelStr + " " + message);
 
             for (WeakReference<ILogListener> logListenerRef : logListeners) {
