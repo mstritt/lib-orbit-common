@@ -171,7 +171,6 @@ public class RawDataFile implements Serializable, Cloneable {
     /**
      * SampleID is not valid anymore - use barcode meta data instead
      *
-     * @return
      */
     @Deprecated
     public void setBioSampleId(int bioSampleId) {

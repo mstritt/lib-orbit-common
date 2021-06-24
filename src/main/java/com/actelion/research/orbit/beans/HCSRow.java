@@ -96,9 +96,10 @@ public class HCSRow implements Serializable, Comparable<HCSRow> {
     }
 
     /**
+     * @SuppressWarnings{
      * Returns one data line as a string with respect to HCSSeparator and HCSDateFormat.<br/>
      * Remark: No StringBuilder is used because in most cases values.length will be around 4.
-     * If length is >> 4 a StringBuilder should be considered.
+     * If length is >> 4 a StringBuilder should be considered. }
      */
     @Override
     public String toString() {

@@ -81,7 +81,9 @@ public class RawMeta implements Serializable, Cloneable {
     }
 
     /**
-     * replaces some words for better hierarchical handling (e.g. Microscope Stand -> Microscope.Stand) based on getNameClean.
+     * @SuppressWarnings{
+     * replaces some words for better hierarchical handling (`e.g. Microscope Stand -> Microscope.Stand`) based on getNameClean.
+     * }
      *
      * @return
      */

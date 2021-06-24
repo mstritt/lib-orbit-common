@@ -20,6 +20,7 @@
 package com.actelion.research.orbit.utils;
 
 import com.actelion.research.orbit.beans.RawMeta;
+import com.actelion.research.orbit.beans.RawDataFile;
 
 import java.io.Serializable;
 import java.util.Date;

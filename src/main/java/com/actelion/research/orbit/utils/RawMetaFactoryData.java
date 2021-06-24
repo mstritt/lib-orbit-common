@@ -19,6 +19,7 @@
 
 package com.actelion.research.orbit.utils;
 
+import com.actelion.research.orbit.beans.RawData;
 import com.actelion.research.orbit.beans.RawMeta;
 
 import java.util.Date;
